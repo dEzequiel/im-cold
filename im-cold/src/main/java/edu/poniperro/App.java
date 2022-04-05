@@ -21,23 +21,22 @@ public class App
         double minTemp = 15;
 
         Room livingRoom = Room.getInstance();
-        livingRoom.setRoomTemperature(10);
+        livingRoom.setRoomTemperature(30);
+
         Measurament thermometer = new Thermometer();
+
         Heater furnace = new Furnace();
         furnace.setStatus(true);
-        System.out.println(furnace.getStatus());
 
-        // Room 15C
+
+        // Room 15Cn
         // Termometro
         // Horno
         // Control
 
-        Regulator distanceController = new Controller(maxTemp, minTemp, livingRoom, furnace, thermometer);
+        Regulator distanceController = new Controller();
 
-        System.out.print("Calentando...");
-
-        distanceController.activateHeater(maxTemp, minTemp, livingRoom, furnace, thermometer);
-        System.out.println(thermometer.readTemperature(livingRoom));
+        distanceController.regulate(maxTemp, minTemp, livingRoom, furnace, thermometer);
 
 
     }
