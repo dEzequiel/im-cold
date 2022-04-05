@@ -29,4 +29,18 @@ public class Controller implements Regulator{
         }
     }
 
+
+    public void regulate(double minTemp, double maxTemp, Room room, Heater heater, Measurament thermometer) {
+        while(thermometer.readTemperature(room) != 10) {
+            if(thermometer.readTemperature(room) > maxTemp) {
+                deactivateHeater(maxTemp, minTemp, room, heater, thermometer);
+            }
+
+            if(thermometer.readTemperature(room) > minTemp) {
+                activateHeater(maxTemp, minTemp, room, heater, thermometer);
+            }
+        }
+
+    }
+
 }
