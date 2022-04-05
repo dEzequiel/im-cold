@@ -20,7 +20,7 @@ public class Furnace implements Heater{
             System.out.println("furnace status is false/off");
         }
 
-        room.setRoomTemperature(room.getRoomTemperature() - intensity);
+        room.setRoomTemperature(room.getRoomTemperature() + intensity);
 
 
     }
