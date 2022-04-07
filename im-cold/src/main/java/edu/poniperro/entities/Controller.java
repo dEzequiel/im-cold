@@ -3,6 +3,7 @@ package edu.poniperro.entities;
 import edu.poniperro.interfaces.Heater;
 import edu.poniperro.interfaces.Measurament;
 import edu.poniperro.interfaces.Regulator;
+import edu.poniperro.types.RegulatorCodes;
 
 public class Controller implements Regulator{
 
@@ -11,36 +12,49 @@ public class Controller implements Regulator{
 
     @Override
     public void deactivateHeater(double maxTemp, double minTemp, Room room, Heater heater, Measurament thermometer) {
-        while(thermometer.readTemperature(room) > maxTemp) {
-                heater.setStatus(false);
-                room.decreaseRoomTemperature();
-                System.out.println("Enfriando..." + thermometer.readTemperature(room));
-
+        RegulatorCodes code = RegulatorCodes.COOLING;
+        while(thermometer.readTemperature(room) > minTemp) {
+            heater.setStatus(false);
+            room.decreaseRoomTemperature();
+            message(code, room);
         }
     }
 
     public void activateHeater(double maxTemp, double minTemp, Room room, Heater heater, Measurament thermometer) {
+        RegulatorCodes code = RegulatorCodes.WARMING_UP;
         while(thermometer.readTemperature(room) < maxTemp) {
             heater.warm(room);
-            System.out.println("Calentando..." + thermometer.readTemperature(room));
+            message(code, room);
             if (thermometer.readTemperature(room) == maxTemp) {
-                break;
+                heater.setStatus(false);
+                return;
             }
         }
     }
-
 
     public void regulate(double minTemp, double maxTemp, Room room, Heater heater, Measurament thermometer) {
-        while(thermometer.readTemperature(room) != 10) {
-            if(thermometer.readTemperature(room) > maxTemp) {
-                deactivateHeater(maxTemp, minTemp, room, heater, thermometer);
-            }
 
-            if(thermometer.readTemperature(room) > minTemp) {
-                activateHeater(maxTemp, minTemp, room, heater, thermometer);
-            }
+        if (heater.getStatus()) {
+            activateHeater(maxTemp, minTemp, room, heater, thermometer);
         }
 
+        if(!heater.getStatus()) {
+            deactivateHeater(maxTemp, minTemp, room, heater, thermometer);
+        }
     }
+
+    private void message(RegulatorCodes code, Room temperature) {
+		switch (code) {
+			case WARMING_UP:
+			System.out.println("Calentando => temperatura " + temperature.getRoomTemperature());
+				break;
+			case COOLING:
+				System.out.println("Apagado => temperatura " + temperature.getRoomTemperature());
+				break;
+			default:
+				System.out.println("Algo raro sucede...");
+				break;
+		}
+	}
 
 }
