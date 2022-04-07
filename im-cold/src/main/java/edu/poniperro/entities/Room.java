@@ -28,4 +28,8 @@ public class Room {
         this.roomTemperature -= 1;
     }
 
+    public void incrementRoomTemperature() {
+        this.roomTemperature += 1;
+    }
+
 }
