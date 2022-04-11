@@ -4,7 +4,6 @@ import edu.poniperro.interfaces.Heater;
 
 public class Furnace implements Heater{
 
-    private final double intensity = 1;
     private boolean status = false;
 
     public void setStatus(boolean status) {
