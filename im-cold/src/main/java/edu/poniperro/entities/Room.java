@@ -28,7 +28,7 @@ public class Room {
         this.roomTemperature -= 1;
     }
 
-    public void incrementRoomTemperature() {
+    public void incrementRoomTemperature(double temperature) {
         this.roomTemperature += 1;
     }
 

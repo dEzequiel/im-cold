@@ -15,7 +15,7 @@ public class Furnace implements Heater{
     }
 
     public void warm(Room room) {
-        room.incrementRoomTemperature();
+        room.incrementRoomTemperature(1);
 
     }
 }
