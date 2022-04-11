@@ -17,6 +17,9 @@ public class Controller implements Regulator{
             heater.setStatus(false);
             room.decreaseRoomTemperature();
             message(code, room);
+            if (thermometer.readTemperature(room) == minTemp) {
+                heater.setStatus(true);
+            }
         }
     }
 
@@ -27,18 +30,17 @@ public class Controller implements Regulator{
             message(code, room);
             if (thermometer.readTemperature(room) == maxTemp) {
                 heater.setStatus(false);
-                return;
             }
         }
     }
 
     public void regulate(double minTemp, double maxTemp, Room room, Heater heater, Measurament thermometer) {
 
-        if (heater.getStatus()) {
+        while (heater.getStatus()) {
             activateHeater(maxTemp, minTemp, room, heater, thermometer);
         }
 
-        if(!heater.getStatus()) {
+        while(!heater.getStatus()) {
             deactivateHeater(maxTemp, minTemp, room, heater, thermometer);
         }
     }
